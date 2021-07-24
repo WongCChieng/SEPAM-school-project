@@ -1,0 +1,145 @@
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		.container {
+			border:1px solid #ccc;
+			width:300px;
+			height: 70%;
+			overflow-y: scroll;
+		}
+		.demo-list-item {
+		  width: 300px;
+		}
+		.demo-list-control {
+		  width: 300px;
+			overflow-y: scroll;
+			height: 260px;
+		}
+	</style>
+	<title>Add Project</title>
+
+		<!--getmdl.io-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet'>
+
+		<!--from https://material.io/develop/web/docs/getting-started-->
+		<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+		<!--BELOW IS TO INITIALIZE FIREBASE @david-->
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.21.0/firebase-firestore.js"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+        <!--This script initialize firebase-->
+        <script src="js/fireBase.js"></script>
+        <!--This script track user-->
+        <script src="js/track_user.js"></script>
+
+		<!-- Always shows a header, even in smaller screens. -->
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	  <header class="mdl-layout__header mdl-shadow--16dp">
+				<button class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" onclick="location.href='projects.html';">
+		      <i class="material-icons">home</i>
+		    </button>
+		    <div class="mdl-layout__header-row">
+		      <!-- Title -->
+		      <span class="mdl-layout-title">Add Project</span>
+		      <!-- Add spacer, to align navigation to the right -->
+			  <div class="mdl-layout-spacer"></div>
+
+			  <!--Display the current user-->
+			  <span id="displayUserUI" class="mdl-layout-title">Loading</span>
+			  <span>&nbsp;&nbsp;</span>
+			  <button onclick="location.href='user_profile.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
+				<i class="material-icons" id="logoutButton">account_circle</i>
+				</button>
+			  <button onclick="mainApp.logOut()" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon" >
+			  <i class="material-icons" id="logoutButton">logout</i>
+			  </button>
+
+		    </div>
+		  </header>
+		  <main class="mdl-layout__content">
+		    <div class="page-content">
+					<center>
+
+						<div class="mdl-cell mdl-cell--8-col">
+					<div class="demo-card-wide.mdl-card mdl-shadow--2dp" style="width: 100%;">
+						<div class="mdl-card__title1">
+						</div>
+						<br>
+							<h4 style="font-weight: bold;">Create Project</h4>
+						<div class="mdl-grid">
+							<div class="mdl-cell mdl-cell--6-col">
+							<center>
+
+							<form action="#">
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+							    <input class="mdl-textfield__input" type="text" id="project_name" required>
+							    <label class="mdl-textfield__label" for="sample3">Project Name</label>
+							  </div>
+							</form>
+
+							<form action="#">
+							  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+							    <input class="mdl-textfield__input" type="text" id="unit_name" required>
+							    <label class="mdl-textfield__label" for="sample3">Unit Name</label>
+							  </div>
+							</form>
+
+							<h5> Due Date </h5>
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield has-placeholder">
+								<input class="mdl-textfield__input" type="date" id="due_date"></input>
+								<label class="mdl-textfield__label" for="departureDate">Due Date</label>
+								<span class="mdl-textfield__error">Due date must be a future date!</span>
+							</div>
+							<br>
+							<br>
+
+							<form action="#">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label has-placeholder">
+									<textarea class="mdl-textfield__input" type="text" rows= "3" id="tasks"></textarea>
+									<label class="mdl-textfield__label" for="sample5">Tasks (optional, separated by comma)</label>
+								</div>
+							</form>
+						</div>
+
+							<div class="mdl-cell mdl-cell--6-col">
+								<h5> Team Members </h5>
+								<ul class="demo-list-control mdl-list" id="members">
+								</ul>
+								<br>
+							<button class="mdc-button mdc-button--raised" onclick="location.href='projects.html'" id="back_button">
+								<div class="mdc-button__ripple"></div>
+								Back
+							</button>
+							&nbsp; &nbsp; &nbsp; &nbsp;
+							<button class="mdc-button mdc-button--raised" onclick="create_project()" id="create_button" disabled>
+								<div class="mdc-button__ripple"></div>
+								Create
+							</button>
+						</div>
+						<div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar" style = "width:700px">
+							<div class="mdl-snackbar__text"></div>
+							<button type="button" class="mdl-snackbar__action"></button>
+						</div>
+
+						</div>
+						</div>
+					</div>
+				</div>
+		  </main>
+		</div>
+		<script src="js/add_project.js"></script>
+</html>
